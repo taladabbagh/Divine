@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store';  // RootState type from your store
+import { RootState } from '../store'; 
 import { Link } from 'react-router-dom';
 
 const Cart: React.FC = () => {

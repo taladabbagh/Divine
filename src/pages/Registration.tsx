@@ -39,13 +39,11 @@ const Registration: React.FC = () => {
         </div>
 
         {isLogin ? (
-          // Log In Form
           <Formik
             initialValues={{ email: '', password: '' }}
             validationSchema={loginValidationSchema}
             onSubmit={(values) => {
               console.log('Log In data', values);
-              // Handle login logic here
             }}
           >
             <Form>
@@ -73,7 +71,6 @@ const Registration: React.FC = () => {
             validationSchema={signUpValidationSchema}
             onSubmit={(values) => {
               console.log('Sign Up data', values);
-              // Handle sign-up logic here
             }}
           >
             <Form>

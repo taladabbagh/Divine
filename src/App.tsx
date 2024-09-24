@@ -3,7 +3,7 @@ import Home from './pages/Home';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
-import Header from './components/Header';  // Import your Header component with the cart icon
+import Header from './components/Header';  
 import { ToastContainer } from 'react-toastify';
 import Registration from './pages/Registration';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,13 +13,10 @@ function App() {
   return (
     <Router>
       <div>
-        {/* Header with cart icon will be displayed on all pages */}
         <Header />
         
-        {/* Toast notifications */}
         <ToastContainer position="top-right" autoClose={3000} />
 
-        {/* Define routes for your pages */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />

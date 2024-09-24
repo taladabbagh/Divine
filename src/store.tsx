@@ -7,7 +7,7 @@ const store = configureStore({
     product: productReducer,
     cart: cartReducer,
   },
-  devTools: process.env.NODE_ENV !== 'production',  // Enable Redux DevTools in development mode
+  devTools: process.env.NODE_ENV !== 'production', 
 });
 
 export type RootState = ReturnType<typeof store.getState>;
