@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { produce } from 'immer';
 
 interface Product {
   id: number;
@@ -21,9 +22,10 @@ const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    setProducts: (state, action: PayloadAction<Product[]>) => {
-      state.products = action.payload;
-    },
+    setProducts: (state, action: PayloadAction<Product[]>) => 
+      produce(state, draft => {
+        draft.products = action.payload;
+      }),
   },
 });
 
