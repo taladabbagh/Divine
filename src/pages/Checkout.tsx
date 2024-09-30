@@ -1,6 +1,9 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+// import Products from './Products';
+import { useNavigate } from 'react-router-dom';
+
 
 interface FormValues {
   name: string;
@@ -17,6 +20,9 @@ const validationSchema = Yup.object({
 });
 
 const Checkout: React.FC = () => {
+
+  const navigate = useNavigate();
+
   const initialValues: FormValues = {
     name: '',
     email: '',
@@ -24,9 +30,11 @@ const Checkout: React.FC = () => {
     paymentMethod: '',
   };
 
-  const handleSubmit = (values: FormValues) => {
+  const handleSubmit = (values: FormValues, {resetForm}: {resetForm: ()=> void}) => {
     console.log('Order details:', values);
     alert('Order placed successfully!');
+    resetForm();
+    navigate('/products')
   };
 
   return (
