@@ -24,29 +24,28 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch();
-  const [notification, setNotification] = useState(false); // State to manage the notification
+  const [notification, setNotification] = useState(false); // state to manage the notification
 
   const handleAddToCart = () => {
     const cartItem: CartItem = {
-      ...product,  // Copy product fields
-      quantity: 1  // Add default quantity
+      ...product,  // copy product fields
+      quantity: 1  // add default quantity
     };
 
-    dispatch(addToCart(cartItem)); // Dispatch the action with the cart item
+    dispatch(addToCart(cartItem)); // dispatch the action with the cart item
 
-    // Show the notification
+    // show the notification
     setNotification(true);
 
-    // Hide the notification after 3 seconds
+    // hide the notification after 3 seconds
     setTimeout(() => {
       setNotification(false);
     }, 3000);
-  };
-
+  }; 
   return (
     <div className="border rounded shadow-lg p-4 relative">
       <img
-        className="w-full h-48 object-cover mb-4 rounded"
+        className="w-full h-48 object-contain mb-4 rounded"
         src={product.image}
         alt={product.title}
       />
@@ -60,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         Add to Cart
       </button>
 
-      {/* Notification for item added to cart */}
+      {/* notification for item added to cart */}
       {notification && (
         <div className="absolute bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded">
           Item added to cart

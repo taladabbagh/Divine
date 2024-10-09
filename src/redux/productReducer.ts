@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { produce } from 'immer';
+import { produce } from 'immer'; // to write immutable updates in a mutable style.
 
 interface Product {
   id: number;

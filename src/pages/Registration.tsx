@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-// Validation Schema for Sign Up
+// validation Schema for Sign Up
 const signUpValidationSchema = Yup.object({
   email: Yup.string().email('Invalid email address').required('Required'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
@@ -11,7 +11,7 @@ const signUpValidationSchema = Yup.object({
     .required('Required')
 });
 
-// Validation Schema for Log In
+// validation Schema for Log In
 const loginValidationSchema = Yup.object({
   email: Yup.string().email('Invalid email address').required('Required'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),

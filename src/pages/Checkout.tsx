@@ -48,7 +48,7 @@ const Checkout: React.FC = () => {
         >
           {() => (
             <Form>
-              {/* Name Field */}
+              {/* name Field */}
               <div className="mb-4">
                 <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Name</label>
                 <Field
@@ -60,7 +60,7 @@ const Checkout: React.FC = () => {
                 <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
               </div>
 
-              {/* Email Field */}
+              {/* email Field */}
               <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email</label>
                 <Field
@@ -72,7 +72,7 @@ const Checkout: React.FC = () => {
                 <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
               </div>
 
-              {/* Address Field */}
+              {/* address Field */}
               <div className="mb-4">
                 <label htmlFor="address" className="block text-gray-700 font-medium mb-2">Address</label>
                 <Field
@@ -84,7 +84,7 @@ const Checkout: React.FC = () => {
                 <ErrorMessage name="address" component="div" className="text-red-500 text-sm mt-1" />
               </div>
 
-              {/* Payment Method Field */}
+              {/* payment Method Field */}
               <div className="mb-4">
                 <label htmlFor="paymentMethod" className="block text-gray-700 font-medium mb-2">Payment Method</label>
                 <Field

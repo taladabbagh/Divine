@@ -25,7 +25,7 @@ const CheckoutForm: React.FC = () => {
   };
 
   const handleSubmit = (values: FormValues) => {
-    // Handle form submission, e.g., sending data to the server
+    // handle form submission, e.g., sending data to the server
     console.log('Form submitted:', values);
     alert('Order placed successfully!');
   };

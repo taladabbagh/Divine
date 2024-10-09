@@ -22,8 +22,8 @@ const Products: React.FC = () => {
     fetchProducts();
   }, []);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(event.target.value);
     // console.log(event.target.value);
   };
 
@@ -35,7 +35,7 @@ const Products: React.FC = () => {
     setSortOrder(event.target.value);
   };
 
-  // Filter and sort products based on user input
+  // filter and sort products based on user input
   const filteredProducts = products.filter(product => {
     const matchesSearchTerm = product.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
@@ -60,17 +60,20 @@ const Products: React.FC = () => {
         <h1 className="text-3xl font-bold">Products</h1>
       </div>
 
-      {/* Search Bar */}
+      <div className=' flex justify-between items-center '>
+      {/* search Bar */}
       <input
         type="text"
         placeholder="Search products..."
         value={searchTerm}
         onChange={handleSearch}
-        className="mb-4 p-2 border border-gray-300 rounded"
+        className="mb-4 p-2 border border-gray-300 rounded mr-3"
       />
 
-      {/* Category Filter */}
-      <select onChange={handleCategoryChange} className="mb-4 p-2 border border-gray-300 rounded">
+      {/* category Filter */}
+      <div className="flex items-center space-x-3">
+
+      <select onChange={handleCategoryChange} className="mb-4 p-2 border border-gray-300 rounded mr-3 ">
         <option value="All">All Categories</option>
         <option value="electronics">Electronics</option>
         <option value="jewelery">Jewelery</option>
@@ -78,15 +81,16 @@ const Products: React.FC = () => {
         <option value="women's clothing">Women's Clothing</option>
       </select>
 
-      {/* Sorting Options */}
+      {/* sorting Options */}
       <select onChange={handleSort} className="mb-4 p-2 border border-gray-300 rounded">
         <option value="default">Sort By</option>
         <option value="priceAsc">Price: Low to High</option>
         <option value="priceDesc">Price: High to Low</option>
         <option value="title">Title</option>
       </select>
-
-      {/* Product Grid */}
+      </div>
+      </div>
+      {/* product Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {sortedFilteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
