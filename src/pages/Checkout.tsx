@@ -1,9 +1,7 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-// import Products from './Products';
 import { useNavigate } from 'react-router-dom';
-
 
 interface FormValues {
   name: string;

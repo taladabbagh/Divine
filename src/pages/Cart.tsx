@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const Cart: React.FC = () => {
   const items = useSelector((state: RootState) => state.cart.items);
   const total = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
+  
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Shopping Cart</h1>

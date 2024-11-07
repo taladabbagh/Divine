@@ -43,26 +43,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     }, 3000);
   }; 
   return (
-    <div className="border rounded shadow-lg p-4 relative">
-      <img
-        className="w-full h-48 object-contain mb-4 rounded"
+  <div className="relative border rounded-lg shadow-lg p-6 bg-white hover:shadow-2xl transition-transform transform hover:scale-105">
+    <img
+        className="w-full h-48 object-contain rounded-md mb-4 border-b pb-4"
         src={product.image}
         alt={product.title}
       />
-      <h3 className="text-lg font-bold">{product.title}</h3>
-      <p className="text-gray-600">{product.category}</p>
-      <p className="text-green-500 font-bold">${product.price.toFixed(2)}</p>
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.title}</h3>
+      <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">{product.category}</p>
+      <p className="text-xl font-bold text-green-700 mb-4">${product.price.toFixed(2)}</p>
       <button
-        className="bg-blue-500 text-white px-4 py-2 mt-2 rounded hover:bg-blue-600"
+        className="bg-blue-800 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition duration-200"
         onClick={handleAddToCart}
       >
         Add to Cart
       </button>
-
-      {/* notification for item added to cart */}
       {notification && (
-        <div className="absolute bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded">
-          Item added to cart
+        <div className="absolute bottom-4 right-4 bg-green-600 text-white px-3 py-1 rounded-md shadow-md animate-bounce">
+          Item added to cart!
         </div>
       )}
     </div>

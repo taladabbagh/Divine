@@ -2,6 +2,9 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+// Yup: Validates the form data by defining a schema with rules for each field (like required fields, minimum/maximum length, etc.).
+// Formik: Manages form state, handles form submission, and simplifies form-building tasks, including integrating with Yup for validation.
+
 interface FormValues {
   name: string;
   email: string;
