@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+.rotating-message {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem;
+  background-color: #38b2ac;
+  color: white;
+  text-align: center;
+  padding: 0.5rem 0;
+  animation: fadeInOut 1s ease-in-out;
+  transition: all 0.5s ease;
+}
+
+.rotating-message a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+}

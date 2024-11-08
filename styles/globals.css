@@ -1,0 +1,28 @@
+/* Add these CSS classes or modify the existing ones */
+.vintage-button {
+  background-color: #2c2c2c; /* Dark, muted gray */
+  color: #e5d5b3; /* Soft beige */
+  border: 2px solid #707070; /* Subtle border for definition */
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px; /* Slightly rounded */
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3); /* Vintage shadow */
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.vintage-button:hover {
+  background-color: #3d3d3d; /* Slightly lighter for hover effect */
+  transform: translateY(-2px); /* Subtle lift */
+}
+
+/* Apply this for white buttons */
+.vintage-button-alt {
+  background-color: #e5d5b3; /* Beige */
+  color: #2c2c2c; /* Dark text */
+  border: 2px solid #c2b09b; /* Accent border */
+}
+
+.vintage-button-alt:hover {
+  background-color: #d4c2a4; /* Lighter beige */
+  transform: translateY(-2px);
+}

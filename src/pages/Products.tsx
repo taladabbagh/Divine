@@ -35,13 +35,14 @@ const Products: React.FC = () => {
     setSortOrder(event.target.value);
   };
 
-  // filter and sort products based on user input
+  // to filter products based on user input
   const filteredProducts = products.filter(product => {
     const matchesSearchTerm = product.title.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
     return matchesSearchTerm && matchesCategory;
   });
 
+  // to sort products based on user input
   const sortedFilteredProducts = filteredProducts.sort((a, b) => {
     if (sortOrder === 'priceAsc') {
       return a.price - b.price;

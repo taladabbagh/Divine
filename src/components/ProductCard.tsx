@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cartReducer';
 
@@ -24,27 +25,32 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch();
-  const [notification, setNotification] = useState(false); // state to manage the notification
+  const navigate = useNavigate();
+  const [notification, setNotification] = useState(false);
 
   const handleAddToCart = () => {
     const cartItem: CartItem = {
-      ...product,  // copy product fields
-      quantity: 1  // add default quantity
+      ...product,
+      quantity: 1
     };
 
-    dispatch(addToCart(cartItem)); // dispatch the action with the cart item
-
-    // show the notification
+    dispatch(addToCart(cartItem));
     setNotification(true);
-
-    // hide the notification after 3 seconds
     setTimeout(() => {
       setNotification(false);
     }, 3000);
-  }; 
+  };
+
+  const handleCardClick = () => {
+    navigate(`/products/${product.id}`);
+  };
+
   return (
-  <div className="relative border rounded-lg shadow-lg p-6 bg-white hover:shadow-2xl transition-transform transform hover:scale-105">
-    <img
+    <div
+      onClick={handleCardClick}
+      className="relative border rounded-lg shadow-lg p-6 bg-white hover:shadow-2xl transition-transform transform hover:scale-105 cursor-pointer"
+    >
+      <img
         className="w-full h-48 object-contain rounded-md mb-4 border-b pb-4"
         src={product.image}
         alt={product.title}
@@ -54,7 +60,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <p className="text-xl font-bold text-green-700 mb-4">${product.price.toFixed(2)}</p>
       <button
         className="bg-blue-800 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition duration-200"
-        onClick={handleAddToCart}
+        onClick={e => {
+          e.stopPropagation();
+          handleAddToCart();
+        }}
       >
         Add to Cart
       </button>
