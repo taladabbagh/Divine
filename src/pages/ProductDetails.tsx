@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store'; // Adjust the import path as needed
+import { RootState } from '../store'; 
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();

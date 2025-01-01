@@ -2,13 +2,7 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-
-interface FormValues {
-  name: string;
-  email: string;
-  address: string;
-  paymentMethod: string;
-}
+import {FormValues} from "../types/types"
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required'),

@@ -1,18 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Product } from '../types/types';
+import { ProductState } from '../types/types';
 import { produce } from 'immer'; // to write immutable updates in a mutable style.
 // Immer ensures that the original state remains unchanged by creating a copy of it.
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-}
-
-interface ProductState {
-  products: Product[];
-}
 
 const initialState: ProductState = {
   products: [],

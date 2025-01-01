@@ -2,22 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cartReducer';
-
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-}
-
-interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  quantity: number;
-}
+import { addToWishlist, removeFromWishlist } from '../redux/wishlistReducer';
+import { FaHeart } from 'react-icons/fa';
+import { Product } from '../types/types';
+import { CartItem } from '../types/types';
 
 interface ProductCardProps {
   product: Product;
@@ -27,11 +15,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [notification, setNotification] = useState(false);
+  const [isInWishlist, setIsInWishlist] = useState(false); 
 
   const handleAddToCart = () => {
     const cartItem: CartItem = {
       ...product,
-      quantity: 1
+      quantity: 1,
     };
 
     dispatch(addToCart(cartItem));
@@ -43,6 +32,23 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleCardClick = () => {
     navigate(`/products/${product.id}`);
+  };
+
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (isInWishlist) {
+      dispatch(removeFromWishlist(product.id));
+    } else {
+      dispatch(
+        addToWishlist({
+          id: product.id,
+          title: product.title,
+          price: product.price,
+          image: product.image
+        })
+      );
+    }
+    setIsInWishlist(!isInWishlist);
   };
 
   return (
@@ -67,6 +73,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       >
         Add to Cart
       </button>
+
+      <div
+        onClick={handleWishlistToggle}
+        className={`absolute top-4 right-4 cursor-pointer text-3xl z-10 transition duration-300 ${isInWishlist ? 'text-red-500' : 'text-gray-500'}`}
+      >
+        <FaHeart />
+      </div>
+
       {notification && (
         <div className="absolute bottom-4 right-4 bg-green-600 text-white px-3 py-1 rounded-md shadow-md animate-bounce">
           Item added to cart!

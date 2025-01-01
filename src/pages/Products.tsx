@@ -24,7 +24,6 @@ const Products: React.FC = () => {
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
       setSearchTerm(event.target.value);
-    // console.log(event.target.value);
   };
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
