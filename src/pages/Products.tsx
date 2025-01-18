@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import ProductCard from '../components/ProductCard'; 
-import Button from '../components/Button';  
-import { Product } from '../types/types';
+import { fetchAllProducts } from '../api/productApi';
+import Button from '../components/Button';
+import { ProductDTO } from '../api/productApi';
+import { Product } from '../types/types'; 
+import SearchBar from '../components/SearchBar';
+import CategoryFilter from '../components/CategoryFilter';
+import SortOptions from '../components/SortOptions';
+import ProductGrid from '../components/ProductGrid';
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -13,17 +17,30 @@ const Products: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get<Product[]>('https://fakestoreapi.com/products');
-        setProducts(response.data);
+        const response = await fetchAllProducts();
+        
+        // Map ProductDTO to Product type
+        const mappedProducts = response.map((productDTO: ProductDTO): Product => ({
+          id: productDTO.id ?? 0,
+          name: productDTO.name,
+          description: productDTO.description,
+          price: productDTO.price,
+          quantity: productDTO.quantity,
+          category: 'Unknown', // You can map or fetch categories as needed
+          subcategory: 'Unknown', // You can map or fetch subcategories as needed
+          imageUrl: productDTO.imageUrl,
+        }));
+
+        setProducts(mappedProducts);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error('Error fetching products:', error);
       }
     };
     fetchProducts();
-  }, []);
+  }, []);  // Empty dependency array to only fetch once on mount
 
-    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(event.target.value);
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
 
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -34,21 +51,21 @@ const Products: React.FC = () => {
     setSortOrder(event.target.value);
   };
 
-  // to filter products based on user input
+  // Filter products based on search term and category
   const filteredProducts = products.filter(product => {
-    const matchesSearchTerm = product.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearchTerm = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
     return matchesSearchTerm && matchesCategory;
   });
 
-  // to sort products based on user input
+  // Sort products based on user input
   const sortedFilteredProducts = filteredProducts.sort((a, b) => {
     if (sortOrder === 'priceAsc') {
       return a.price - b.price;
     } else if (sortOrder === 'priceDesc') {
       return b.price - a.price;
-    } else if (sortOrder === 'title') {
-      return a.title.localeCompare(b.title);
+    } else if (sortOrder === 'name') {
+      return a.name.localeCompare(b.name);
     }
     return 0;
   });
@@ -60,42 +77,19 @@ const Products: React.FC = () => {
         <h1 className="text-3xl font-bold">Products</h1>
       </div>
 
-      <div className=' flex justify-between items-center '>
-      {/* search Bar */}
-      <input
-        type="text"
-        placeholder="Search products..."
-        value={searchTerm}
-        onChange={handleSearch}
-        className="mb-4 p-2 border border-gray-300 rounded mr-3"
-      />
-
-      {/* category Filter */}
-      <div className="flex items-center space-x-3">
-
-      <select onChange={handleCategoryChange} className="mb-4 p-2 border border-gray-300 rounded mr-3 ">
-        <option value="All">All Categories</option>
-        <option value="electronics">Electronics</option>
-        <option value="jewelery">Jewelery</option>
-        <option value="men's clothing">Men's Clothing</option>
-        <option value="women's clothing">Women's Clothing</option>
-      </select>
-
-      {/* sorting Options */}
-      <select onChange={handleSort} className="mb-4 p-2 border border-gray-300 rounded">
-        <option value="default">Sort By</option>
-        <option value="priceAsc">Price: Low to High</option>
-        <option value="priceDesc">Price: High to Low</option>
-        <option value="title">Title</option>
-      </select>
+      <div className="flex justify-between items-center">
+        {/* Search Bar */}
+        <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
+        
+        {/* Category Filter */}
+        <CategoryFilter selectedCategory={selectedCategory} handleCategoryChange={handleCategoryChange} />
+        
+        {/* Sorting Options */}
+        <SortOptions sortOrder={sortOrder} handleSort={handleSort} />
       </div>
-      </div>
-      {/* product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {sortedFilteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+
+      {/* Product Grid */}
+      <ProductGrid products={sortedFilteredProducts} />
     </div>
   );
 };

@@ -35,13 +35,15 @@ import axios from 'axios';
       throw error;
     }
   };
-  export const loginUser = async (loginData: LogIn): Promise<User> =>{
-    try{
-      const response = await api.post<User>('/auth/login', loginData);
-      return response.data;
+  export const loginUser = async (loginData: LogIn): Promise<string> => {
+    try {
+        const response = await api.post<string>('/auth/login', loginData);
+        const token = response.data; // Assume the backend returns the JWT token
+        localStorage.setItem('authToken', token); // Save the token in localStorage
+        return token;
+    } catch (error) {
+        console.error('Error during login:', error);
+        throw error;
     }
-    catch(error){
-      console.log("Error during login: ", error);
-      throw error;
-    }
-  };
+};
+

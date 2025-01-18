@@ -6,7 +6,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import Header from './components/Header';  
 import { ToastContainer } from 'react-toastify';
-import Registration from './pages/Registration';
+import Registration from './pages/Registration/Registration';
 import Admin from './admin/pages/Dashboard';
 
 import ProductDetails from './pages/ProductDetails';
@@ -44,3 +44,4 @@ export default function AppWrapper() {
     </Router>
   );
 }
+

@@ -1,17 +1,4 @@
-export interface Product {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  subcategory: string;
-  image: string;
-}
-
 export interface CartItem extends Product {
-  id: number;
-  title: string;
-  price: number;
   quantity: number;
 }
 
@@ -21,6 +8,7 @@ export interface FormValues {
   address: string;
   paymentMethod: string;
 }
+
 export interface ProductState {
   products: Product[];
 }
@@ -46,3 +34,26 @@ export interface SetProductsAction {
 
 export type CartActions = AddToCartAction | RemoveFromCartAction;
 export type ProductActions = SetProductsAction;
+
+export interface Category {
+  id: number;
+  name: string;
+  gender?: string;
+}
+
+export interface Subcategory {
+  id: number;
+  name: string;
+  categoryId: number;
+}
+
+export interface Product {
+  category: string;
+  id: number;
+  name: string;
+  description?: string;
+  price: number;
+  quantity: number;
+  subcategory: string;
+  imageUrl?: string;
+}

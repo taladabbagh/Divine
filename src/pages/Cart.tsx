@@ -16,7 +16,7 @@ const Cart: React.FC = () => {
         <div>
           {items.map((item) => (
             <div key={item.id} className="border p-4 mb-2">
-              <h2>{item.title}</h2>
+              <h2>{item.name}</h2>
               <p>Quantity: {item.quantity}</p>
               <p>Price: ${item.price}</p>
             </div>
@@ -33,4 +33,4 @@ const Cart: React.FC = () => {
   );
 };
 
-export default Cart;
+export default Cart; 
