@@ -38,6 +38,7 @@ export const addItemToCart = async (
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("item added");
     return response.data;
   } catch (error) {
     console.error('Error adding item to cart:', error);
