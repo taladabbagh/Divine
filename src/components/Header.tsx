@@ -6,8 +6,14 @@ import { FaShoppingCart, FaUser, FaHeart } from 'react-icons/fa';
 import logo from "../../public/logo.png";
 
 const Header: React.FC = () => {
-  const cartItems = useSelector((state: RootState) => state.cart.items);
-  const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  //items gives error
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+  console.log('cartItems:', cartItems); // Debug log
+
+  const totalItems = Array.isArray(cartItems)
+    ? cartItems.reduce((acc, item) => acc + item.quantity, 0)
+    : 0;
+
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
   const totalWishlistItems = wishlistItems.length;
   const navigate = useNavigate();

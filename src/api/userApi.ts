@@ -1,20 +1,21 @@
 import axios from 'axios';
 
-  interface SignupDTO {
+  export interface SignupDTO {
     firstName: string;
     lastName: string;
     email: string;
     password: string;
   }
 
-  interface User {
+  export interface User {
+    token: string;
     id?: string;
     firstName: string;
     lastName: string;
     email: string;
     password?: string; 
   }
-  interface LogIn {
+  export interface LogIn {
     email: string;
     password: string;
   }
@@ -26,7 +27,7 @@ import axios from 'axios';
     },
   });
 
-  export const signupUser = async (signupData: SignupDTO): Promise<User> => {
+  export const signupUser = async (signupData: SignupDTO)=> {
     try {
       const response = await api.post<User>('/signup', signupData);
       return response.data;
@@ -35,11 +36,11 @@ import axios from 'axios';
       throw error;
     }
   };
-  export const loginUser = async (loginData: LogIn): Promise<string> => {
+  export const loginUser = async (loginData: LogIn)=> {
     try {
         const response = await api.post<string>('/auth/login', loginData);
-        const token = response.data; // Assume the backend returns the JWT token
-        localStorage.setItem('authToken', token); // Save the token in localStorage
+        const token = response.data; 
+        localStorage.setItem('authToken', token); 
         return token;
     } catch (error) {
         console.error('Error during login:', error);

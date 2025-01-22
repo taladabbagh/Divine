@@ -1,29 +1,29 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { loginUser } from '../../api/userApi';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useAuth } from "../../Context/useAuth";
+import { useNavigate } from "react-router-dom";
 
 const loginValidationSchema = Yup.object({
-  email: Yup.string().email('Invalid email address').required('Required'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
+  email: Yup.string().email("Invalid email address").required("Required"),
+  password: Yup.string().min(6, "Password must be at least 6 characters").required("Required"),
 });
 
 const LoginForm: React.FC = () => {
-    const navigate = useNavigate();
-    
+  const { loginUser } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <Formik
-      initialValues={{ email: '', password: '' }}
+      initialValues={{ email: "", password: "" }}
       validationSchema={loginValidationSchema}
       onSubmit={async (values, { setSubmitting }) => {
         try {
-          const response = await loginUser(values);
-          console.log('User successfully logged in:', response);
-          navigate('/products');
+          await loginUser(values.email, values.password);
+          navigate("/products"); 
         } catch (error) {
-          console.error('Login failed:', error);
-          alert('Failed to log in. Please try again.');
+          console.error("Login failed:", error);
+          alert("Failed to log in. Please try again.");
         } finally {
           setSubmitting(false);
         }

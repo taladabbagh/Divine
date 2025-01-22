@@ -1,7 +1,15 @@
-export interface CartItem extends Product {
+export interface CartItem {
+  id: number;
+  productId:number;
   quantity: number;
+  price: number;
+  
 }
-
+export interface CartResponse {
+  id: number;
+  userId:number;
+  cartItems:CartItem[];
+}
 export interface FormValues {
   name: string;
   email: string;
@@ -13,32 +21,10 @@ export interface ProductState {
   products: Product[];
 }
 
-export interface CartState {
-  items: CartItem[];
-}
-
-export interface AddToCartAction {
-  type: 'ADD_TO_CART';
-  payload: CartItem;
-}
-
-export interface RemoveFromCartAction {
-  type: 'REMOVE_FROM_CART';
-  payload: { id: number };
-}
-
-export interface SetProductsAction {
-  type: 'SET_PRODUCTS';
-  payload: Product[];
-}
-
-export type CartActions = AddToCartAction | RemoveFromCartAction;
-export type ProductActions = SetProductsAction;
-
 export interface Category {
   id: number;
   name: string;
-  gender?: string;
+  gender?: string; // Optional field
 }
 
 export interface Subcategory {
@@ -53,7 +39,16 @@ export interface Product {
   name: string;
   description?: string;
   price: number;
-  quantity: number;
+  quantity: number; 
   subcategory: string;
   imageUrl?: string;
 }
+
+export type UserProfileToken = {
+  email: string;
+  token: string;
+};
+
+export type UserProfile = {
+  email: string;
+};
