@@ -17,7 +17,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
   const [notification, setNotification] = useState(false);
   const [isInWishlist, setIsInWishlist] = useState(false);
-  const { token } = useAuth(); // Extract token using useAuth
+  const { token } = useAuth(); 
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.stopPropagation();

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../store';
 import { setCart } from '../redux/cartReducer';
-import { getCart } from '../api/cartApi';
+import { deleteFromCart, getCart, updateCart } from '../api/cartApi';
 import { fetchProductById } from '../api/productApi';
 import { useAuth } from '../Context/useAuth';
 import { Link } from 'react-router-dom';
+// import { CartItem } from '../types/types';
 
 interface CartItemWithDetails {
   id: number;
@@ -64,6 +65,46 @@ const Cart: React.FC = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+  const handleQuantityChange = async (item: CartItemWithDetails, newQuantity: number) => {
+    if (!token) return;
+
+    try {
+      const updatedItem = { ...item, quantity: newQuantity };
+      await updateCart(token, updatedItem);
+      const updatedCartItems = cartItems.map((cartItem) =>
+        cartItem.productId === item.productId
+          ? { ...cartItem, quantity: newQuantity }
+          : cartItem
+      );
+      dispatch(setCart(updatedCartItems));
+    } catch (error) {
+      console.error(`Error updating quantity for product ID ${item.productId}:`, error);
+    }
+  };
+
+  const handleDelete = async (productId: number) => {
+    if (!token) {
+      console.log("User is not logged in to delete.");
+      return;
+    }
+  
+    try {
+      // Call the delete API
+      await deleteFromCart(token, productId);
+      console.log(`Deleted product with ID: ${productId}`);
+  
+      // Update the Redux state
+      const updatedCartItems = cartItems.filter(item => item.productId !== productId);
+      dispatch(setCart(updatedCartItems));
+  
+      // Update the local state for UI
+      const updatedCartItemsWithDetails = cartItemsWithDetails.filter(item => item.productId !== productId);
+      setCartItemsWithDetails(updatedCartItemsWithDetails);
+    } catch (error) {
+      console.error(`Error deleting product with ID ${productId}:`, error);
+    }
+  };
+  
 
   return (
     <div className="container mx-auto p-4">
@@ -73,17 +114,36 @@ const Cart: React.FC = () => {
       ) : (
         <div>
           {cartItemsWithDetails.map((item) => (
-            <div key={item.id} className="border p-4 mb-2 flex">
-              <img
-                src={item.imageUrl || 'https://via.placeholder.com/150'}
-                alt={item.name || 'Product Image'}
-                className="w-16 h-16 object-cover mr-4"
-              />
-              <div>
-                <h2 className="font-bold">{item.name || 'Unknown Product'}</h2>
-                <p>Quantity: {item.quantity}</p>
-                <p>Price: ${item.price}</p>
-              </div>
+            <div className='flex justify-between'>
+              <div className='border p-4 mb-2 flex w-screen justify-between'>
+                <div key={item.id} className="flex">
+                  <img
+                    src={item.imageUrl || 'https://via.placeholder.com/150'}
+                    alt={item.name || 'Product Image'}
+                    className="w-16 h-16 object-cover mr-4"
+                  />
+                  <div>
+                    <h2 className="font-bold">{item.name || 'Unknown Product'}</h2>
+                    <select
+                    className="border rounded px-2 py-1"
+                    value={item.quantity}
+                    onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
+                  >
+                    {[...Array(10).keys()].map((num) => (
+                      <option key={num + 1} value={num + 1}>
+                        {num + 1}
+                      </option>
+                    ))}
+                  </select>
+                    <p>Price: ${item.price}</p>
+                  </div>
+                  </div>
+                  <div className = "">
+                    <button onClick={() => handleDelete(item.productId)} className="bg-red-500 text-white px-2 py-1 mt-0 rounded-full hover:bg-red-600 text-xs">
+                        X
+                    </button>
+                  </div>
+                </div>
             </div>
           ))}
           <h3 className="text-xl font-bold mt-4">

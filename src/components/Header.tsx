@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { FaShoppingCart, FaUser, FaHeart } from 'react-icons/fa'; 
-import logo from "../../public/logo.png";
+import logo from '../../public/logo.png';
+import { useAuth } from '../Context/useAuth';
 
 const Header: React.FC = () => {
-  //items gives error
-  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
-  console.log('cartItems:', cartItems); // Debug log
+  const { token, logout } = useAuth();
+  const [showLogout, setShowLogout] = useState(false);
 
+  const cartItems = useSelector((state: RootState) => state.cart.cartItems);
   const totalItems = Array.isArray(cartItems)
     ? cartItems.reduce((acc, item) => acc + item.quantity, 0)
     : 0;
@@ -17,6 +18,14 @@ const Header: React.FC = () => {
   const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
   const totalWishlistItems = wishlistItems.length;
   const navigate = useNavigate();
+
+  const handleUserIconClick = () => {
+    if (!token) {
+      navigate('/register');
+    } else {
+      setShowLogout((prev) => !prev); // Toggle the logout button
+    }
+  };
 
   return (
     <header>
@@ -27,10 +36,23 @@ const Header: React.FC = () => {
         </Link>
 
         <div className="flex items-center space-x-5">
-          <FaUser
-            className="text-2xl cursor-pointer hover:text-teal-300 transition duration-300"
-            onClick={() => navigate('/register')}
-          />
+          <div className="relative">
+            <FaUser
+              className="text-2xl cursor-pointer hover:text-teal-300 transition duration-300"
+              onClick={handleUserIconClick}
+            />
+            {token && showLogout && (
+              <button
+                onClick={() => {
+                  logout();
+                  setShowLogout(false); // Hide the button after logout
+                }}
+                className="absolute top-8 right-0 bg-gray-700 text-white text-sm px-4 py-2 rounded shadow-lg hover:bg-red-500 transition duration-300"
+              >
+                Logout
+              </button>
+            )}
+          </div>
           <div className="relative flex items-center">
             <FaShoppingCart
               className="text-2xl cursor-pointer hover:text-teal-300 transition duration-300"

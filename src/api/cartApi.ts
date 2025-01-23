@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CartResponse } from '../types/types';
+import { CartItem, CartResponse } from '../types/types';
 
 const api = axios.create({
   baseURL: 'http://localhost:8080/cart',
@@ -45,3 +45,38 @@ export const addItemToCart = async (
     throw error;
   }
 };
+
+export const deleteFromCart = async(
+  token:string,
+  productId: number
+) =>{
+  try{
+      const response = await api.delete(`/items/${productId}`, {
+        headers:{
+          Authorization: `Bearer ${token}`
+        },
+      });
+      console.log("item deleted")
+      return response.data;
+  }catch(error){
+console.log("error deleting product with id: ", productId)
+    throw error;
+  }
+}
+export const updateCart = async(
+  token:string,
+  cartItem:CartItem
+) =>{
+  try{
+      const response = await api.put(`/items`, cartItem, {
+        headers:{
+          Authorization: `Bearer ${token}`
+        },
+      });
+      console.log("item deleted")
+      return response.data;
+  }catch(error){
+console.log("error updating product : ", cartItem)
+    throw error;
+  }
+}
