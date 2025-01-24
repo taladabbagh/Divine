@@ -38,7 +38,7 @@ const LoginForm: React.FC = () => {
             type="email"
             id="email"
             name="email"
-            className="form-input mt-1 pl-2 block w-full bg-gray-800 border-gray-600 rounded-md text-gray-300"
+            className="form-input mt-1 pl-2 block w-full bg-gray border-gray-600 rounded-md text-charcoal"
           />
           <ErrorMessage name="email" component="div" className="text-red-400 text-sm mt-1" />
         </div>
@@ -51,14 +51,14 @@ const LoginForm: React.FC = () => {
             type="password"
             id="password"
             name="password"
-            className="form-input mt-1 pl-2 block w-full bg-gray-800 border-gray-600 rounded-md text-gray-300"
+            className="form-input mt-1 pl-2 block w-full bg-gray border-gray-600 rounded-md text-charcoal"
           />
           <ErrorMessage name="password" component="div" className="text-red-400 text-sm mt-1" />
         </div>
 
         <button
           type="submit"
-          className="bg-teal-500 text-gray-900 px-4 py-2 rounded-lg w-full hover:bg-teal-400 transition duration-300 font-semibold"
+          className="bg-teal-dark text-white px-4 py-2 rounded-lg w-full hover:bg-teal transition duration-300 font-semibold"
         >
           Log In
         </button>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchAllProducts } from '../api/productApi';
-import Button from '../components/Button';
+// import Button from '../components/Button';
 import { ProductDTO } from '../api/productApi';
 import { Product } from '../types/types'; 
 import SearchBar from '../components/SearchBar';
@@ -73,8 +73,8 @@ const Products: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <div className="flex items-center mb-6">
-        <Button text="Back" variant="back" className="mr-4" />
-        <h1 className="text-3xl font-bold">Products</h1>
+        {/* <Button text="Back" variant="back" className="mr-4" /> */}
+        <h1 className="text-3xl text-gray-700 font-bold">Products</h1>
       </div>
 
       <div className="flex justify-between items-center">

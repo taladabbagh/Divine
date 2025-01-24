@@ -89,7 +89,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">{product.category}</p>
       <p className="text-xl font-bold text-green-700 mb-4">${product.price.toFixed(2)}</p>
       <button
-        className="bg-blue-800 text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-blue-700 transition duration-200"
+        className="bg-gold-dark text-white px-4 py-2 rounded-lg font-semibold shadow-md hover:bg-gray transition duration-200"
         onClick={handleAddToCart}
       >
         Add to Cart
@@ -103,7 +103,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <FaHeart />
       </div>
       {notification && (
-        <div className="absolute bottom-4 right-4 bg-green-600 text-white px-3 py-1 rounded-md shadow-md animate-bounce">
+        <div className="absolute bottom-4 right-4 bg-teal text-white px-3 py-1 rounded-md shadow-md animate-bounce">
           Item added to cart!
         </div>
       )}

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { FaShoppingCart, FaUser, FaHeart } from 'react-icons/fa'; 
-import logo from '../../public/logo.png';
+import logo from '../../public/cropped.png';
 import { useAuth } from '../Context/useAuth';
 
 const Header: React.FC = () => {
@@ -29,16 +29,16 @@ const Header: React.FC = () => {
 
   return (
     <header>
-      <div className="bg-gray-800 h-[5rem] text-gray-100 p-5 shadow-lg flex justify-between items-center rounded-b-lg">
+      <div className="bg-charcoal h-[5rem] p-5 shadow-lg flex justify-between items-center rounded-b-lg">
         <Link to="/" className="flex items-center space-x-3">
-          <img src={logo} alt="Logo" className="h-12 w-12 rounded-full shadow-lg" />
-          <span className="text-3xl font-bold tracking-widest">Divine</span>
+          <img src={logo} alt="Logo" className="h-16 w-auto" />
+          <span className="text-3xl text-gold font-bold tracking-widest font-serif ">Divine</span>
         </Link>
 
         <div className="flex items-center space-x-5">
           <div className="relative">
             <FaUser
-              className="text-2xl cursor-pointer hover:text-teal-300 transition duration-300"
+              className="text-2xl text-gold cursor-pointer hover:text-gray transition duration-300"
               onClick={handleUserIconClick}
             />
             {token && showLogout && (
@@ -55,11 +55,11 @@ const Header: React.FC = () => {
           </div>
           <div className="relative flex items-center">
             <FaShoppingCart
-              className="text-2xl cursor-pointer hover:text-teal-300 transition duration-300"
+              className="text-2xl text-gold cursor-pointer hover:text-gray transition duration-300"
               onClick={() => navigate('/cart')}
             />
             {totalItems > 0 && (
-              <span className="bg-red-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center absolute -top-1 -right-2">
+              <span className="bg-gray text-charcoal text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center absolute -top-1 -right-2">
                 {totalItems}
               </span>
             )}
@@ -67,11 +67,11 @@ const Header: React.FC = () => {
 
           <div className="relative flex items-center">
             <FaHeart
-              className="text-2xl cursor-pointer hover:text-teal-300 transition duration-300"
+              className="text-2xl text-gold cursor-pointer hover:text-gray transition duration-300"
               onClick={() => navigate('/wishlist')}
             />
             {totalWishlistItems > 0 && (
-              <span className="bg-red-500 text-white text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center absolute -top-1 -right-2">
+              <span className="bg-gray text-charcoal text-xs font-semibold rounded-full h-5 w-5 flex items-center justify-center absolute -top-1 -right-2">
                 {totalWishlistItems}
               </span>
             )}
