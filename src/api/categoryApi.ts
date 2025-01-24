@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Category, Subcategory } from '../types/types';
+import { ProductDTO } from './productApi';
 
 const api = axios.create({
   baseURL: 'http://localhost:8080', 
@@ -44,6 +45,15 @@ export const fetchSubcategoriesByCategoryId = async (categoryId: number): Promis
     return response.data;
   } catch (error) {
     console.error('Error fetching subcategories by category ID:', error);
+    throw error;
+  }
+};
+export const fetchProductsByCategory = async (categoryId: number): Promise<ProductDTO[]> => {
+  try {
+    const response = await api.get<ProductDTO[]>(`/categories/${categoryId}/products`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching products by category:', error);
     throw error;
   }
 };

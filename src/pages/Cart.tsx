@@ -6,7 +6,7 @@ import { deleteFromCart, getCart, updateCart } from '../api/cartApi';
 import { fetchProductById } from '../api/productApi';
 import { useAuth } from '../Context/useAuth';
 import { Link } from 'react-router-dom';
-// import { CartItem } from '../types/types';
+import { Skeleton } from '@mui/material';
 
 interface CartItemWithDetails {
   id: number;
@@ -21,18 +21,22 @@ const Cart: React.FC = () => {
   const { token } = useAuth();
   const dispatch = useDispatch();
   const [cartItemsWithDetails, setCartItemsWithDetails] = useState<CartItemWithDetails[]>([]);
+  const [loading, setLoading] = useState(true);
   const cartItems = useSelector((state: RootState) => state.cart.cartItems);
 
   useEffect(() => {
     if (token) {
       getCart(token)
         .then((response) => {
-          console.log('Cart response:', response);
           dispatch(setCart(response.cartItems || []));
+          setLoading(false);
         })
         .catch((error) => {
           console.error('Error fetching cart items:', error);
+          setLoading(false);
         });
+    } else {
+      setLoading(false);
     }
   }, [token, dispatch]);
 
@@ -46,10 +50,11 @@ const Cart: React.FC = () => {
               ...item,
               name: product.name,
               imageUrl: product.imageUrl,
+              quantity: product.quantity, // Fetch product quantity from the API
             };
           } catch (error) {
             console.error(`Error fetching product details for product ID ${item.productId}:`, error);
-            return item; // Return the original item if fetching details fails
+            return item;
           }
         })
       );
@@ -65,6 +70,7 @@ const Cart: React.FC = () => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
+
   const handleQuantityChange = async (item: CartItemWithDetails, newQuantity: number) => {
     if (!token) return;
 
@@ -83,39 +89,41 @@ const Cart: React.FC = () => {
   };
 
   const handleDelete = async (productId: number) => {
-    if (!token) {
-      console.log("User is not logged in to delete.");
-      return;
-    }
-  
+    if (!token) return;
+
     try {
-      // Call the delete API
       await deleteFromCart(token, productId);
-      console.log(`Deleted product with ID: ${productId}`);
-  
-      // Update the Redux state
       const updatedCartItems = cartItems.filter(item => item.productId !== productId);
       dispatch(setCart(updatedCartItems));
-  
-      // Update the local state for UI
       const updatedCartItemsWithDetails = cartItemsWithDetails.filter(item => item.productId !== productId);
       setCartItemsWithDetails(updatedCartItemsWithDetails);
     } catch (error) {
       console.error(`Error deleting product with ID ${productId}:`, error);
     }
   };
-  
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl text-charcoal font-bold mb-4">Shopping Cart</h1>
-      {cartItemsWithDetails.length === 0 ? (
+      {loading ? (
+        <div>
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="flex justify-between items-center mb-4">
+              <Skeleton variant="rectangular" width={64} height={64} />
+              <div className="flex flex-col flex-1 ml-4">
+                <Skeleton variant="text" width="80%" />
+                <Skeleton variant="text" width="60%" />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : cartItemsWithDetails.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
         <div>
           {cartItemsWithDetails.map((item) => (
-            <div className='flex justify-between'>
-              <div className='border p-4 mb-2 flex w-screen justify-between'>
+            <div className="flex justify-between">
+              <div className="border p-4 mb-2 flex w-screen justify-between">
                 <div key={item.id} className="flex">
                   <img
                     src={item.imageUrl || 'https://via.placeholder.com/150'}
@@ -125,25 +133,28 @@ const Cart: React.FC = () => {
                   <div>
                     <h2 className="font-bold">{item.name || 'Unknown Product'}</h2>
                     <select
-                    className="border rounded px-2 py-1"
-                    value={item.quantity}
-                    onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
-                  >
-                    {[...Array(10).keys()].map((num) => (
-                      <option key={num + 1} value={num + 1}>
-                        {num + 1}
-                      </option>
-                    ))}
-                  </select>
+                      className="border rounded px-2 py-1"
+                      value={item.quantity}
+                      onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
+                    >
+                      {[...Array(item.quantity < 10 ? item.quantity : 10).keys()].map((num) => (
+                        <option key={num + 1} value={num + 1}>
+                          {num + 1}
+                        </option>
+                      ))}
+                    </select>
                     <p>Price: ${item.price}</p>
                   </div>
-                  </div>
-                  <div className = "">
-                    <button onClick={() => handleDelete(item.productId)} className="bg-red-500 text-white px-2 py-1 mt-0 rounded-full hover:bg-red-600 text-xs">
-                        X
-                    </button>
-                  </div>
                 </div>
+                <div>
+                  <button
+                    onClick={() => handleDelete(item.productId)}
+                    className="bg-red-500 text-white px-2 py-1 mt-0 rounded-full hover:bg-red-600 text-xs"
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
           <h3 className="text-xl font-bold mt-4">

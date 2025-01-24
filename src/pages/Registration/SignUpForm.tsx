@@ -2,6 +2,8 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { signupUser } from '../../api/userApi';
+import { useAuth } from '../../Context/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 const signUpValidationSchema = Yup.object({
   firstName: Yup.string().min(2, 'First name must be at least 2 characters').required('Required'),
@@ -14,6 +16,9 @@ const signUpValidationSchema = Yup.object({
 });
 
 const SignUpForm: React.FC = () => {
+  const { loginUser } = useAuth(); // Use login function from the auth context
+  const navigate = useNavigate();
+
   return (
     <Formik
       initialValues={{
@@ -26,11 +31,17 @@ const SignUpForm: React.FC = () => {
       validationSchema={signUpValidationSchema}
       onSubmit={async (values, { setSubmitting }) => {
         try {
+          // Call the signup API
           const response = await signupUser(values);
           console.log('User successfully signed up:', response);
-          alert('Registration successful!');
+
+          // Automatically log in the user
+          await loginUser(values.email, values.password);
+
+          // Navigate to the desired page
+          navigate('/products');
         } catch (error) {
-          console.error('Signup failed:', error);
+          console.error('Signup or login failed:', error);
           alert('Failed to sign up. Please try again.');
         } finally {
           setSubmitting(false);

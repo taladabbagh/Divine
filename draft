@@ -1,7 +1,8 @@
 pagination
 wishlist
-after registration user should be directed to login
-product page
+<!-- after registration user should be directed to login -->
+product detail page
 fix unknown in product card
 add images
-fic searching from category
+<!-- fic searching from category -->
+error handling

@@ -34,13 +34,13 @@ export interface Subcategory {
 }
 
 export interface Product {
-  category: string;
   id: number;
   name: string;
   description?: string;
   price: number;
   quantity: number; 
-  subcategory: string;
+  subcategory?: string;
+  category?: string;
   imageUrl?: string;
 }
 
