@@ -16,8 +16,8 @@ const Header: React.FC = () => {
     ? cartItems.reduce((acc, item) => acc + item.quantity, 0)
     : 0;
 
-  const wishlistItems = useSelector((state: RootState) => state.wishlist.items);
-  const totalWishlistItems = wishlistItems.length;
+  const wishItems = useSelector((state: RootState) => state.wishlist.wishItems);
+  const totalWishlistItems = wishItems.length;
 
   const navigate = useNavigate();
 

@@ -6,3 +6,9 @@ fix unknown in product card
 add images
 <!-- fic searching from category -->
 error handling
+
+error handling if user does not have anything in wishlist or cart, to not return error 500, to return that user has no items
+
+error handling there might be a token but the token might be expired, so after login in 24 hours the token should be deleted, because nor logout button appears instead of login when user need to login because token is expired
+
+fix that i have to refresh when i add category to see it in the subcategories, and refresh when i add subcategory to see it in add product

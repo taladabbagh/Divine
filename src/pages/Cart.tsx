@@ -28,6 +28,8 @@ const Cart: React.FC = () => {
     if (token) {
       getCart(token)
         .then((response) => {
+    console.log("cartItems:", response.cartItems);
+
           dispatch(setCart(response.cartItems || []));
           setLoading(false);
         })
@@ -122,39 +124,37 @@ const Cart: React.FC = () => {
       ) : (
         <div>
           {cartItemsWithDetails.map((item) => (
-            <div className="flex justify-between">
-              <div className="border p-4 mb-2 flex w-screen justify-between">
-                <div key={item.id} className="flex">
-                  <img
-                    src={item.imageUrl || 'https://via.placeholder.com/150'}
-                    alt={item.name || 'Product Image'}
-                    className="w-16 h-16 object-cover mr-4"
-                  />
-                  <div>
-                    <h2 className="font-bold">{item.name || 'Unknown Product'}</h2>
-                    <select
-                      className="border rounded px-2 py-1"
-                      value={item.quantity}
-                      onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
-                    >
-                      {[...Array(item.quantity < 10 ? item.quantity : 10).keys()].map((num) => (
-                        <option key={num + 1} value={num + 1}>
-                          {num + 1}
-                        </option>
-                      ))}
-                    </select>
-                    <p>Price: ${item.price}</p>
-                  </div>
-                </div>
+            <div className="border p-4 mb-2 flex items-center justify-between relative" key={item.id}>
+              <div className="flex items-center space-x-4">
+                <img
+                  src={item.imageUrl || 'https://via.placeholder.com/150'}
+                  alt={item.name || 'Product Image'}
+                  className="w-16 h-16 object-cover"
+                />
                 <div>
-                  <button
-                    onClick={() => handleDelete(item.productId)}
-                    className="bg-red-500 text-white px-2 py-1 mt-0 rounded-full hover:bg-red-600 text-xs"
+                  <h2 className="font-bold">{item.name || 'Unknown Product'}</h2>
+                  <select
+                    className="border rounded px-2 py-1"
+                    value={item.quantity}
+                    onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
                   >
-                    X
-                  </button>
+                    {[...Array(item.quantity < 10 ? item.quantity : 10).keys()].map((num) => (
+                      <option key={num + 1} value={num + 1}>
+                        {num + 1}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
+              <div className="absolute top-2 right-4 flex flex-col items-end">
+                <button
+                  onClick={() => handleDelete(item.productId)}
+                  className="bg-red-500 text-white px-2 py-1 rounded-full hover:bg-red-600 text-xs"
+                >
+                  X
+                </button>
+                <p className="mt-4 text-sm font-medium">Price: ${item.price}</p>
+              </div>  
             </div>
           ))}
           <h3 className="text-xl font-bold mt-4">
@@ -169,6 +169,8 @@ const Cart: React.FC = () => {
       )}
     </div>
   );
+  
+    
 };
 
 export default Cart;

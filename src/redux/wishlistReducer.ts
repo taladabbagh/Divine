@@ -1,38 +1,39 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { produce } from 'immer';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { produce } from "immer";
+import { WishlistItem, WishlistResponse } from "../types/types";
 
-interface WishlistItem {
-  id: number;
-  name: string;
-  price: number;
-  image:string
-}
-
-interface WishlistState {
-  items: WishlistItem[];
-}
-
-const initialState: WishlistState = {
-  items: [],
+const initialState: WishlistResponse = {
+  id: 0,
+  userId: 0,
+  wishItems: [],
 };
 
 const wishlistSlice = createSlice({
-  name: 'wishlist',
+  name: "wishlist",
   initialState,
   reducers: {
+    setWishlist: (state, action: PayloadAction<WishlistItem[]>) => {
+      state.wishItems = action.payload;
+    },
     addToWishlist: (state, action: PayloadAction<WishlistItem>) =>
-      produce(state, draft => {
-        const existingItem = draft.items.find(item => item.id === action.payload.id);
+      produce(state, (draft) => {
+        const existingItem = draft.wishItems.find(
+          (item) => item.id === action.payload.id
+        );
         if (!existingItem) {
-          draft.items.push(action.payload);
+          draft.wishItems.push(action.payload);
         }
       }),
     removeFromWishlist: (state, action: PayloadAction<number>) =>
-      produce(state, draft => {
-        draft.items = draft.items.filter(item => item.id !== action.payload);
+      produce(state, (draft) => {
+        draft.wishItems = draft.wishItems.filter(
+          (item) => item.id !== action.payload
+        );
       }),
   },
 });
 
-export const { addToWishlist, removeFromWishlist } = wishlistSlice.actions;
+export const { setWishlist, addToWishlist, removeFromWishlist } =
+  wishlistSlice.actions;
+
 export default wishlistSlice.reducer;

@@ -10,6 +10,15 @@ export interface CartResponse {
   userId:number;
   cartItems:CartItem[];
 }
+export interface WishlistItem {
+  id: number;
+  productId:number;  
+}
+export interface WishlistResponse {
+  id: number;
+  userId:number;
+  wishItems:WishlistItem[];
+}
 export interface FormValues {
   name: string;
   email: string;
