@@ -85,7 +85,7 @@ const Wishlist: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container min-h-[calc(100vh-5rem)] bg-gray-100 mx-auto p-4">
       <h1 className="text-3xl text-charcoal font-bold mb-4">Shopping Wishlist</h1>
       {loading ? (
         <div>
@@ -104,7 +104,7 @@ const Wishlist: React.FC = () => {
       ) : (
         <div>
           {wishItemsWithDetails.map((item) => (
-            <div className="border p-4 mb-2 flex items-center justify-between relative" key={item.id}>
+            <div className="border bg-white p-4 mb-2 flex items-center justify-between relative" key={item.id}>
               <div className="flex items-center space-x-4">
                 <img
                   src={item.imageUrl || 'https://via.placeholder.com/150'}

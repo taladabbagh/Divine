@@ -60,7 +60,7 @@ const Header: React.FC = () => {
         </div>
       )}
 
-      {/* Header Section */}
+      {/* Header Section */}  
       <div className="bg-charcoal h-[5rem] p-5 shadow-lg flex justify-between items-center rounded-b-lg">
         <Link to="/" className="flex items-center space-x-3">
           <img src={logo} alt="Logo" className="h-16 w-auto" />

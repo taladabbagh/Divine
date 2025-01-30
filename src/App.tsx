@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { UserProvider } from './Context/useAuth';  // Ensure the correct path
+import { UserProvider } from './Context/useAuth'; 
 import '../styles/globals.css';
 import '../styles/header.css';
 import Products from './pages/Products';
@@ -35,7 +35,7 @@ function App() {
 export default function AppWrapper() {
   return (
     <Router>
-      <UserProvider> {/* Wrap the App component with UserProvider */}
+      <UserProvider> 
         <App />
       </UserProvider>
     </Router>

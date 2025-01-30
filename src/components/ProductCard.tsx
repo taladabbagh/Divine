@@ -13,7 +13,6 @@ interface ProductCardProps {
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const navigate = useNavigate();
   const wishItems = useSelector((state: RootState) => state.wishlist.wishItems);
-
   const [isInWishlist, setIsInWishlist] = useState(false);
 
   useEffect(() => {
@@ -27,24 +26,40 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div
       onClick={handleCardClick}
-      className="relative border rounded-lg shadow-lg p-6 bg-white hover:shadow-2xl transition-transform transform hover:scale-105 cursor-pointer"
+      className="relative flex flex-col border rounded-lg shadow-md p-4 bg-white hover:shadow-xl transition-transform transform hover:scale-105 cursor-pointer w-full min-h-[320px] sm:min-h-[360px] md:min-h-[400px]"
     >
-      <img
-        className="w-full h-48 object-contain rounded-md mb-4 border-b pb-4"
-        src={product.imageUrl}
-        alt={product.name}
-      />
-      <h3 className="text-lg font-semibold text-gray-900 mb-2">{product.name}</h3>
-      <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">{product.category}</p>
-      <p className="text-xl font-bold text-green-700 mb-4">${product.price.toFixed(2)}</p>
-      <div className="flex justify-between">
+      {/* Wishlist Icon (Top-Right) */}
+      <div className="absolute top-4 right-4 z-20">
+        <AddToWishlistButton
+          product={product}
+          isInWishlist={isInWishlist}
+          setIsInWishlist={setIsInWishlist}
+        />
+      </div>
 
-      <AddToCartButton product={product} />
-      <AddToWishlistButton
-        product={product}
-        isInWishlist={isInWishlist}
-        setIsInWishlist={setIsInWishlist}
-      />
+      {/* Product Image */}
+      <div className="flex justify-center items-center w-full h-40 sm:h-48 md:h-56">
+        <img
+          className="w-full h-full object-contain rounded-md"
+          src={product.imageUrl}
+          alt={product.name}
+        />
+      </div>
+
+      {/* Product Info */}
+      <div className="flex flex-col flex-grow p-2">
+        <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
+          {product.name}
+        </h3>
+        <p className="text-xs uppercase tracking-wide text-gray-500">
+          {product.category}
+        </p>
+        <p className="text-xl font-bold text-green-700">${product.price.toFixed(2)}</p>
+      </div>
+
+      {/* Add to Cart Button (Always at Bottom) */}
+      <div className="mt-auto">
+        <AddToCartButton product={product} />
       </div>
     </div>
   );

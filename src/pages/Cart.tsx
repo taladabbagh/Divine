@@ -28,8 +28,6 @@ const Cart: React.FC = () => {
     if (token) {
       getCart(token)
         .then((response) => {
-    console.log("cartItems:", response.cartItems);
-
           dispatch(setCart(response.cartItems || []));
           setLoading(false);
         })
@@ -105,13 +103,13 @@ const Cart: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl text-charcoal font-bold mb-4">Shopping Cart</h1>
+    <div className="container min-h-[calc(100vh-5rem)] bg-gray-100 mx-auto p-4">
+      <h1 className="text-4xl text-charcoal font-bold mb-6">Shopping Cart</h1>
       {loading ? (
         <div>
           {[...Array(3)].map((_, index) => (
             <div key={index} className="flex justify-between items-center mb-4">
-              <Skeleton variant="rectangular" width={64} height={64} />
+              <Skeleton variant="rectangular" width={80} height={80} />
               <div className="flex flex-col flex-1 ml-4">
                 <Skeleton variant="text" width="80%" />
                 <Skeleton variant="text" width="60%" />
@@ -124,17 +122,17 @@ const Cart: React.FC = () => {
       ) : (
         <div>
           {cartItemsWithDetails.map((item) => (
-            <div className="border p-4 mb-2 flex items-center justify-between relative" key={item.id}>
-              <div className="flex items-center space-x-4">
+            <div className="border bg-white p-6 mb-4 rounded-lg shadow-lg flex items-center justify-between relative hover:shadow-xl transition-shadow" key={item.id}>
+              <div className="flex items-center space-x-6">
                 <img
                   src={item.imageUrl || 'https://via.placeholder.com/150'}
                   alt={item.name || 'Product Image'}
-                  className="w-16 h-16 object-cover"
+                  className="w-24 h-24 object-cover rounded-lg shadow-md"
                 />
                 <div>
-                  <h2 className="font-bold">{item.name || 'Unknown Product'}</h2>
+                  <h2 className="text-xl font-semibold text-gray-800">{item.name || 'Unknown Product'}</h2>
                   <select
-                    className="border rounded px-2 py-1"
+                    className="border rounded-lg px-4 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
                     value={item.quantity}
                     onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
                   >
@@ -149,19 +147,19 @@ const Cart: React.FC = () => {
               <div className="absolute top-2 right-4 flex flex-col items-end">
                 <button
                   onClick={() => handleDelete(item.productId)}
-                  className="bg-red-500 text-white px-2 py-1 rounded-full hover:bg-red-600 text-xs"
+                  className="bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 text-xs focus:outline-none focus:ring-2 focus:ring-red-400"
                 >
                   X
                 </button>
-                <p className="mt-4 text-sm font-medium">Price: ${item.price}</p>
+                <p className="mt-4 text-lg font-medium text-gray-700">Price: ${item.price}</p>
               </div>  
             </div>
           ))}
-          <h3 className="text-xl font-bold mt-4">
+          <h3 className="text-2xl font-bold mt-6 text-gray-800">
             Total: ${total.toFixed(2)}
           </h3>
           <Link to={'/checkout'}>
-            <button className="bg-teal text-white px-4 py-2 mt-4 rounded hover:bg-green-600">
+            <button className="bg-teal-500 text-white px-6 py-3 mt-4 rounded-lg hover:bg-teal-600 transition-colors focus:outline-none focus:ring-2 focus:ring-teal-400">
               Checkout
             </button>
           </Link>
@@ -169,8 +167,6 @@ const Cart: React.FC = () => {
       )}
     </div>
   );
-  
-    
 };
 
 export default Cart;

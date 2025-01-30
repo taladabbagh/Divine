@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import AddProductForm from "../components/AddProductForm";
 import CategoryManager from "../components/CategoryManager";
 import ProductList from "../components/ProductList";
-import { Product, Category, } from "../types/types";
+import {  Category } from "../types/types";
+import { Product } from "../../types/types";
 import { fetchCategories } from "../api/categoryApi";
 
 const AdminPage: React.FC = () => {

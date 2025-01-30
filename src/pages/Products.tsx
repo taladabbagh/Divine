@@ -80,18 +80,20 @@ const Products: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <div className="flex items-center mb-6">
-        <h1 className="text-4xl font-bold text-gray-800">Products</h1>
+    <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
+      <div className="flex items-center justify-between mb-5">
+        <h1 className="text-4xl font-semibold text-gray-800">Products</h1>
       </div>
 
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-3 space-x-4">
         <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
+        <div className="flex  gap-2 justify-end">
         <CategoryFilter selectedCategory={selectedCategory} handleCategoryChange={handleCategoryChange} />
         <SortOptions sortOrder={sortOrder} handleSort={handleSort} />
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {isLoading
           ? Array.from({ length: 6 }).map((_, index) => (
               <Skeleton

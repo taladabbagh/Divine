@@ -46,6 +46,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ categories }) => {
         subCategoryId: parseInt(values.subcategory, 10),
         imageUrl: values.imageUrl || "",
       };
+      console.log(newProduct.imageUrl);
       console.log(newProduct);
       try {
         const createdProduct = await createProduct(newProduct);
@@ -147,7 +148,7 @@ const AddProductForm: React.FC<AddProductFormProps> = ({ categories }) => {
             <option value="">Select Category</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
-                {category.name}
+                {category.name} {category.gender && `(${category.gender})`}
               </option>
             ))}
           </select>

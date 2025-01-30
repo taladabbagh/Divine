@@ -12,3 +12,13 @@ error handling if user does not have anything in wishlist or cart, to not return
 error handling there might be a token but the token might be expired, so after login in 24 hours the token should be deleted, because nor logout button appears instead of login when user need to login because token is expired
 
 fix that i have to refresh when i add category to see it in the subcategories, and refresh when i add subcategory to see it in add product
+
+userReducer?
+
+when product is added i want to display a message saying product is added successfully
+
+delete product grid file??
+
+when i filter by categories images are not displayed
+
+fix delete product from cart it doesn't work.
