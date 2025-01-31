@@ -56,7 +56,9 @@ export const deleteFromCart = async(
           Authorization: `Bearer ${token}`
         },
       });
-      console.log("item deleted")
+      console.log(productId);
+      console.log("item deleted");
+      // console.log()
       return response.data;
   }catch(error){
 console.log("error deleting product with id: ", productId)
@@ -73,7 +75,7 @@ export const updateCart = async(
           Authorization: `Bearer ${token}`
         },
       });
-      console.log("item deleted")
+      console.log("item upDATED")
       return response.data;
   }catch(error){
 console.log("error updating product : ", cartItem)

@@ -2,7 +2,8 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import {FormValues} from "../types/types"
+import { createOrder } from '../api/orderApi';  // Import createOrder
+import { FormValues } from '../types/types';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required'),
@@ -12,7 +13,6 @@ const validationSchema = Yup.object({
 });
 
 const Checkout: React.FC = () => {
-
   const navigate = useNavigate();
 
   const initialValues: FormValues = {
@@ -22,11 +22,24 @@ const Checkout: React.FC = () => {
     paymentMethod: '',
   };
 
-  const handleSubmit = (values: FormValues, {resetForm}: {resetForm: ()=> void}) => {
+  const handleSubmit = async (values: FormValues, { resetForm }: { resetForm: () => void }) => {
     console.log('Order details:', values);
-    alert('Order placed successfully!');
-    resetForm();
-    navigate('/products')
+
+    try {
+      const token = localStorage.getItem('token'); // Adjust this based on your auth method
+      if (!token) {
+        alert('User is not authenticated');
+        return;
+      }
+
+      await createOrder(token);  // Call API to create order
+      alert('Order placed successfully!');
+      resetForm();
+      navigate('/products');
+    } catch (error) {
+      console.error('Error creating order:', error);
+      alert('Failed to place order. Please try again.');
+    }
   };
 
   return (
@@ -40,7 +53,7 @@ const Checkout: React.FC = () => {
         >
           {() => (
             <Form>
-              {/* name Field */}
+              {/* Name Field */}
               <div className="mb-4">
                 <label htmlFor="name" className="block text-gray-700 font-medium mb-2">Name</label>
                 <Field
@@ -52,7 +65,7 @@ const Checkout: React.FC = () => {
                 <ErrorMessage name="name" component="div" className="text-red-500 text-sm mt-1" />
               </div>
 
-              {/* email Field */}
+              {/* Email Field */}
               <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-700 font-medium mb-2">Email</label>
                 <Field
@@ -64,7 +77,7 @@ const Checkout: React.FC = () => {
                 <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
               </div>
 
-              {/* address Field */}
+              {/* Address Field */}
               <div className="mb-4">
                 <label htmlFor="address" className="block text-gray-700 font-medium mb-2">Address</label>
                 <Field
@@ -76,7 +89,7 @@ const Checkout: React.FC = () => {
                 <ErrorMessage name="address" component="div" className="text-red-500 text-sm mt-1" />
               </div>
 
-              {/* payment Method Field */}
+              {/* Payment Method Field */}
               <div className="mb-4">
                 <label htmlFor="paymentMethod" className="block text-gray-700 font-medium mb-2">Payment Method</label>
                 <Field
@@ -94,7 +107,7 @@ const Checkout: React.FC = () => {
 
               <button
                 type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full hover:bg-blue-600 transition duration-300"
+                className="bg-teal text-white px-4 py-2 rounded-lg w-full hover:bg-teal-dark transition duration-300"
               >
                 Place Order
               </button>

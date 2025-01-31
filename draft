@@ -1,15 +1,15 @@
-pagination
-wishlist
+<!-- pagination -->
+<!-- wishlist -->
 <!-- after registration user should be directed to login -->
 product detail page
-fix unknown in product card
-add images
+<!-- fix unknown in product card -->
+<!-- add images -->
 <!-- fic searching from category -->
 error handling
 
 error handling if user does not have anything in wishlist or cart, to not return error 500, to return that user has no items
 
-error handling there might be a token but the token might be expired, so after login in 24 hours the token should be deleted, because nor logout button appears instead of login when user need to login because token is expired
+<!-- error handling there might be a token but the token might be expired, so after login in 24 hours the token should be deleted, because nor logout button appears instead of login when user need to login because token is expired -->
 
 fix that i have to refresh when i add category to see it in the subcategories, and refresh when i add subcategory to see it in add product
 
@@ -19,6 +19,16 @@ when product is added i want to display a message saying product is added succes
 
 delete product grid file??
 
-when i filter by categories images are not displayed
+<!-- when i filter by categories images are not displayed -->
 
-fix delete product from cart it doesn't work.
+<!-- fix delete product from cart it doesn't work. -->
+
+<!-- in the total a zero is added or toal is wrong -->
+
+<!-- quantity is not changing in cart -->
+
+<!-- i added something to my cart but the quantity is automatically set to 9 -->
+
+when i am not logged in ad try to add product to cart the modal only appears in the card
+
+gender filter

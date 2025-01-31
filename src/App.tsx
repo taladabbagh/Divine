@@ -13,6 +13,7 @@ import ProductDetails from './pages/ProductDetails';
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import Wishlist from './pages/Wishlist';
+import Orders from './pages/Orders';
 function App() {
   return (
     <div>
@@ -26,6 +27,8 @@ function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/register" element={<Registration />} />
+        <Route path="/orders" element={<Orders />} />
+
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </div>

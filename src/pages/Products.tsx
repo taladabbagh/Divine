@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { fetchAllProducts } from '../api/productApi';
+import { fetchAllProducts, fetchProductsBySubCategory } from '../api/productApi';
 import { fetchProductsByCategory } from '../api/categoryApi';
 import { ProductDTO } from '../api/productApi';
-import SearchBar from '../components/SearchBar';
-import CategoryFilter from '../components/CategoryFilter';
-import SortOptions from '../components/SortOptions';
-import ProductCard from '../components/ProductCard';
+import SearchBar from '../components/Products/SearchBar';
+import ProductFilter from '../components/Products/ProductFilter';
+import SortOptions from '../components/Products/SortOptions';
+import ProductCard from '../components/Products/ProductCard';
 import { Skeleton } from '@mui/material';
-import PaginationComponent from '../components/Pagination';
+import PaginationComponent from '../components/Products/Pagination';
 
 const Products: React.FC = () => {
   const [products, setProducts] = useState<ProductDTO[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<number | 'All'>('All');
+  const [selectedSubcategory, setSelectedSubcategory] = useState<number | 'All'>('All');
+  const [selectedGender, setSelectedGender] = useState<string>('All');
   const [sortOrder, setSortOrder] = useState<string>('default');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,8 +30,10 @@ const Products: React.FC = () => {
         let response: ProductDTO[];
         if (selectedCategory === 'All') {
           response = await fetchAllProducts();
-        } else {
+        } else if (selectedSubcategory === 'All') {
           response = await fetchProductsByCategory(selectedCategory);
+        } else {
+          response = await fetchProductsBySubCategory(selectedSubcategory);
         }
         setProducts(response);
       } catch (error) {
@@ -40,7 +44,7 @@ const Products: React.FC = () => {
     };
 
     fetchProducts();
-  }, [selectedCategory]);
+  }, [selectedCategory, selectedSubcategory]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -49,6 +53,16 @@ const Products: React.FC = () => {
   const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value;
     setSelectedCategory(value === 'All' ? 'All' : parseInt(value, 10));
+    setSelectedSubcategory('All'); // Reset subcategory when category changes
+  };
+
+  const handleSubcategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    setSelectedSubcategory(value === 'All' ? 'All' : parseInt(value, 10));
+  };
+
+  const handleGenderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedGender(event.target.value);
   };
 
   const handleSort = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -56,9 +70,15 @@ const Products: React.FC = () => {
   };
 
   // Filter and sort logic
-  const filteredProducts = products.filter((product) =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = products
+    .filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .filter((product) => {
+      if (selectedGender === 'All') return true;
+      // Assuming `product.gender` is a property in your ProductDTO
+      return product.gender === selectedGender;
+    });
 
   const sortedFilteredProducts = [...filteredProducts].sort((a, b) => {
     if (sortOrder === 'priceAsc') return a.price - b.price;
@@ -87,9 +107,16 @@ const Products: React.FC = () => {
 
       <div className="flex justify-between items-center mb-3 space-x-4">
         <SearchBar searchTerm={searchTerm} handleSearch={handleSearch} />
-        <div className="flex  gap-2 justify-end">
-        <CategoryFilter selectedCategory={selectedCategory} handleCategoryChange={handleCategoryChange} />
-        <SortOptions sortOrder={sortOrder} handleSort={handleSort} />
+        <div className="flex gap-2 justify-end">
+          <ProductFilter
+            selectedCategory={selectedCategory}
+            selectedSubcategory={selectedSubcategory}
+            selectedGender={selectedGender}
+            handleCategoryChange={handleCategoryChange}
+            handleSubcategoryChange={handleSubcategoryChange}
+            handleGenderChange={handleGenderChange}
+          />
+          <SortOptions sortOrder={sortOrder} handleSort={handleSort} />
         </div>
       </div>
 

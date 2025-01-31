@@ -26,33 +26,48 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if (user && token) {
-      setUser(JSON.parse(user));
-      setToken(token);
-      console.log("token: ", token);
-      console.log("user: ", user);
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+    const tokenTimestamp = localStorage.getItem("tokenTimestamp");
+
+    if (storedUser && storedToken && tokenTimestamp) {
+      const currentTime = new Date().getTime();
+      const storedTime = parseInt(tokenTimestamp, 10);
+      const expirationTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+      if (currentTime - storedTime > expirationTime) {
+        logout(); // Token expired, log out the user
+      } else {
+        setUser(JSON.parse(storedUser));
+        setToken(storedToken);
+        axios.defaults.headers.common["Authorization"] = "Bearer " + storedToken; // Restore token after refresh
+      }
     }
     setIsReady(true);
   }, []);
 
   const registerUser = async (
-    firstName: string,  
+    firstName: string,
     lastName: string,
     email: string,
     password: string
   ) => {
     try {
       const userData = await signupUser({ firstName, lastName, email, password });
-      localStorage.setItem("token", userData.token || "");
-      const userObj = {
-        email: userData.email,
-      };
+
+      const token = userData.token || "";
+      const timestamp = new Date().getTime(); // Store login time
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("tokenTimestamp", timestamp.toString());
+      
+      const userObj = { email: userData.email };
       localStorage.setItem("user", JSON.stringify(userObj));
-      setToken(userData.token || null);
+
+      setToken(token);
       setUser(userObj);
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+
       toast.success("Registration Successful!");
       navigate("/search");
     } catch (error) {
@@ -64,39 +79,42 @@ export const UserProvider = ({ children }: Props) => {
   const loginUser = async (email: string, password: string) => {
     try {
       const token = await loginAPI({ email, password });
-      localStorage.setItem('token', token);
-  
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-  
+      const timestamp = new Date().getTime(); // Store login time
+
+      localStorage.setItem("token", token);
+      localStorage.setItem("tokenTimestamp", timestamp.toString());
+      
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+
       const userObj = { email };
-      localStorage.setItem('user', JSON.stringify(userObj));
+      localStorage.setItem("user", JSON.stringify(userObj));
       setToken(token);
       setUser(userObj);
-    
-      toast.success('Login Successful!');
-      navigate('/search');
+
+      toast.success("Login Successful!");
+      navigate("/search");
     } catch (error) {
-      toast.error('Login failed. Please check your credentials.');
+      toast.error("Login failed. Please check your credentials.");
       throw error;
     }
   };
-  
+
   const isLoggedIn = () => {
-    return !!user;
+    return !!user && !!token;
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("tokenTimestamp");
     localStorage.removeItem("user");
     setUser(null);
     setToken(null);
+    delete axios.defaults.headers.common["Authorization"];
     navigate("/");
   };
 
   return (
-    <UserContext.Provider
-      value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
-    >
+    <UserContext.Provider value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}>
       {isReady ? children : null}
     </UserContext.Provider>
   );

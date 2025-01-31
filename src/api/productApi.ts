@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export interface ProductDTO {
+  gender?: string;
   id: number;
   name: string;
   description?: string;

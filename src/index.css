@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 @layer base {
-  p {
+  p,
+  h1,
+  h2,
+  h3,
+  option {
     @apply text-charcoal;
+    @apply font-serif;
   }
 }

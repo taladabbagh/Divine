@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import AddToCartButton from "./AddToCartBtn";
-import AddToWishlistButton from "./AddToWishlistBtn";
-import { Product } from "../types/types";
-import { RootState } from "../store";
+import AddToCartButton from "../AddToCartBtn";
+import AddToWishlistButton from "../AddToWishlistBtn";
+import { Product } from "../../types/types";
+import { RootState } from "../../store";
 
 interface ProductCardProps {
   product: Product;
@@ -54,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <p className="text-xs uppercase tracking-wide text-gray-500">
           {product.category}
         </p>
-        <p className="text-xl font-bold text-green-700">${product.price.toFixed(2)}</p>
+        <p className="text-xl font-bold text-green-700">${product.price?.toFixed(2)}</p>
       </div>
 
       {/* Add to Cart Button (Always at Bottom) */}
