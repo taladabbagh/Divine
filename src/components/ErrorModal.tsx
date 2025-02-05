@@ -1,5 +1,6 @@
-import React from 'react';
-import { AiOutlineExclamationCircle } from 'react-icons/ai'; // Custom icon for the error
+import React from "react";
+import { createPortal } from "react-dom";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
 
 interface ErrorModalProps {
   errorMessage: string;
@@ -8,16 +9,16 @@ interface ErrorModalProps {
 }
 
 const ErrorModal: React.FC<ErrorModalProps> = ({ errorMessage, open, onClose }) => {
-  return (
+  return createPortal(
     <div
       className={`fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 transition-opacity duration-300 ${
-        open ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        open ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
       onClick={onClose}
     >
       <div
-        className={`bg-white w-full max-w-md mx-4 p-6 rounded-lg shadow-lg overflow-hidden transition-all duration-500 transform ${
-          open ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+        className={`bg-white w-full max-w-md mx-4 p-6 rounded-lg shadow-lg transform transition-all duration-300 ${
+          open ? "scale-100 opacity-100" : "scale-95 opacity-0"
         }`}
         onClick={(e) => e.stopPropagation()}
       >
@@ -35,7 +36,8 @@ const ErrorModal: React.FC<ErrorModalProps> = ({ errorMessage, open, onClose }) 
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

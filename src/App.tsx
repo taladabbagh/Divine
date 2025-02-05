@@ -14,9 +14,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import Wishlist from './pages/Wishlist';
 import Orders from './pages/Orders';
+import { ModalProvider } from './Context/ModalContext';
+
 function App() {
   return (
+          <ModalProvider>
     <div>
+
       <Header />
       <ToastContainer position="top-right" autoClose={3000} />
       <Routes>
@@ -31,7 +35,9 @@ function App() {
 
         <Route path="/admin" element={<Admin />} />
       </Routes>
+
     </div>
+      </ModalProvider>
   );
 }
 

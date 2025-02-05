@@ -2,8 +2,9 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { createOrder } from '../api/orderApi';  // Import createOrder
+import { createOrder } from '../api/orderApi';  
 import { FormValues } from '../types/types';
+import { useAuth } from '../Context/useAuth'; 
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required'),
@@ -13,6 +14,7 @@ const validationSchema = Yup.object({
 });
 
 const Checkout: React.FC = () => {
+  const { token } = useAuth(); 
   const navigate = useNavigate();
 
   const initialValues: FormValues = {
@@ -26,13 +28,12 @@ const Checkout: React.FC = () => {
     console.log('Order details:', values);
 
     try {
-      const token = localStorage.getItem('token'); // Adjust this based on your auth method
       if (!token) {
         alert('User is not authenticated');
         return;
       }
 
-      await createOrder(token);  // Call API to create order
+      await createOrder(token);  
       alert('Order placed successfully!');
       resetForm();
       navigate('/products');

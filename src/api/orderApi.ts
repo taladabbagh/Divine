@@ -25,15 +25,16 @@ export const getOrders = async (
   }
 };
 
-export const createOrder = async (
-  token: string
-) => {
+export const createOrder = async (token: string) => {
   try {
-    const response = await api.post(``,  {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await api.post(
+      ``,{},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     console.log("order made");
     return response.data;
   } catch (error) {

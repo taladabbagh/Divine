@@ -28,7 +28,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       onClick={handleCardClick}
       className="relative flex flex-col border rounded-lg shadow-md p-4 bg-white hover:shadow-xl transition-transform transform hover:scale-105 cursor-pointer w-full min-h-[320px] sm:min-h-[360px] md:min-h-[400px]"
     >
-      {/* Wishlist Icon (Top-Right) */}
       <div className="absolute top-4 right-4 z-20">
         <AddToWishlistButton
           product={product}
@@ -54,12 +53,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <p className="text-xs uppercase tracking-wide text-gray-500">
           {product.category}
         </p>
-        <p className="text-xl font-bold text-green-700">${product.price?.toFixed(2)}</p>
-      </div>
-
-      {/* Add to Cart Button (Always at Bottom) */}
-      <div className="mt-auto">
-        <AddToCartButton product={product} />
+        <div className="mt-4 flex flex-row justify-between">
+          <p className="text-xl font-bold text-green-700">${product.price?.toFixed(2)}</p>
+          <div>
+            <AddToCartButton product={product} />
+          </div>
+        </div>
       </div>
     </div>
   );

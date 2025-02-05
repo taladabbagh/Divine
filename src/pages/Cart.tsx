@@ -47,6 +47,7 @@ const Cart: React.FC = () => {
               ...item,
               name: product.name,
               imageUrl: product.imageUrl,
+              stockQuantity: product.quantity ?? 0, // Ensure stock is always defined
             };
           } catch (error) {
             console.error(`Error fetching product details for product ID ${item.productId}:`, error);
@@ -56,12 +57,12 @@ const Cart: React.FC = () => {
       );
       setCartItemsWithDetails(itemsWithDetails);
     };
-
+  
     if (cartItems.length > 0) {
       fetchDetails();
     }
   }, [cartItems]);
-
+    
   const total = cartItemsWithDetails.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
@@ -102,7 +103,7 @@ const Cart: React.FC = () => {
 
   return (
     <div className="container min-h-[calc(100vh-5rem)] bg-gray-100 mx-auto p-4">
-      <h1 className="text-4xl text-charcoal font-bold mb-6">Shopping Cart</h1>
+      <h1 className="text-3xl text-charcoal font-bold mb-6">Your Cart</h1>
       {loading ? (
         <CartSkeleton />
       ) : !token ? (

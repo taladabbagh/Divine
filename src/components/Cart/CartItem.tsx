@@ -1,4 +1,3 @@
-// components/CartItem.tsx
 import React from 'react';
 import { CartItemWithDetails } from '../../types/types';
 
@@ -28,17 +27,18 @@ const CartItems: React.FC<CartItemProps> = ({ item, handleQuantityChange, handle
                 {item.name || 'Unknown Product'}
               </h2>
               <div onClick={(e) => e.stopPropagation()}>
-                <select
+              <select
                   className="border rounded-lg px-4 py-2 mt-2 focus:outline-none focus:ring-2 focus:ring-teal"
                   value={item.quantity}
                   onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
                 >
-                  {[...Array(10).keys()].map((num) => (
+                  {[...Array(Math.min(10, item.stockQuantity || 0)).keys()].map((num) => (
                     <option key={num + 1} value={num + 1}>
                       {num + 1}
                     </option>
                   ))}
                 </select>
+
               </div>
             </div>
           </div>

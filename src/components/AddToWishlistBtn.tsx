@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { addToWishlist, removeFromWishlist } from "../redux/wishlistReducer";
 import { FaHeart } from "react-icons/fa";
 import { useAuth } from "../Context/useAuth";
 import { addItemToWishlist, deleteFromWishlist } from "../api/wishlistApi";
 import { WishlistItem, Product } from "../types/types";
-import ErrorModal from "./ErrorModal";
+import { ModalContext } from "../Context/ModalContext";
 
 interface AddToWishlistButtonProps {
   product: Product;
-  isInWishlist: boolean; // Add this prop
-  setIsInWishlist: React.Dispatch<React.SetStateAction<boolean>>; // Add this prop
+  isInWishlist: boolean;
+  setIsInWishlist: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AddToWishlistButton: React.FC<AddToWishlistButtonProps> = ({
@@ -20,16 +20,14 @@ const AddToWishlistButton: React.FC<AddToWishlistButtonProps> = ({
 }) => {
   const dispatch = useDispatch();
   const { token } = useAuth();
+  const { openModal } = useContext(ModalContext);
   const [notification, setNotification] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [openErrorModal, setOpenErrorModal] = useState(false);
 
   const handleToggleWishlist = async (e: React.MouseEvent) => {
     e.stopPropagation();
 
     if (!token) {
-      setError("You need to log in to add items to the wishlist.");
-      setOpenErrorModal(true);
+      openModal("You need to log in to add items to the wishlist.");
       return;
     }
 
@@ -48,8 +46,6 @@ const AddToWishlistButton: React.FC<AddToWishlistButtonProps> = ({
     } else {
       try {
         const response = await addItemToWishlist({ productId: product.id }, token);
-
-        // Make sure response is treated as having id property of type number
         dispatch(addToWishlist({ ...wishlistItem, id: (response as { id: number }).id }));
         showNotification();
       } catch (error) {
@@ -65,10 +61,6 @@ const AddToWishlistButton: React.FC<AddToWishlistButtonProps> = ({
     setTimeout(() => setNotification(false), 3000);
   };
 
-  const handleCloseErrorModal = () => {
-    setOpenErrorModal(false);
-  };
-
   return (
     <>
       <div
@@ -80,18 +72,8 @@ const AddToWishlistButton: React.FC<AddToWishlistButtonProps> = ({
         <FaHeart />
       </div>
 
-      {notification && (
-        <div className="absolute bottom-4 right-4 bg-teal text-white px-3 py-1 rounded-md shadow-md animate-bounce">
-          Item added to wishlist!
-        </div>
-      )}
-
-      {error && openErrorModal && (
-        <>
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-40" />
-          <ErrorModal errorMessage={error} open={openErrorModal} onClose={handleCloseErrorModal} />
-        </>
-      )}
+      {notification
+      }
     </>
   );
 };

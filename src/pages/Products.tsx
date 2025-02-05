@@ -76,7 +76,6 @@ const Products: React.FC = () => {
     )
     .filter((product) => {
       if (selectedGender === 'All') return true;
-      // Assuming `product.gender` is a property in your ProductDTO
       return product.gender === selectedGender;
     });
 

@@ -2,12 +2,13 @@ export interface CartItem {
   id: number;
   productId:number;
   quantity: number;
-  price?: number;
+  price: number;
   
 }
 export interface CartItemWithDetails extends CartItem {
   name?: string;
   imageUrl?: string;
+  stockQuantity?: number;
 }
 export interface CartResponse {
   id: number;
@@ -38,11 +39,10 @@ export interface WishlistResponse {
   userId:number;
   wishItems:WishlistItem[];
 }
-// types.tsx
-export interface WishlistItemWithDetails extends CartItem {
+export interface WishlistItemWithDetails extends WishlistItem {
   name?: string;
   imageUrl?: string;
-  quantity: number; // Add the quantity property
+  price?:number
 }export interface FormValues {
   name: string;
   email: string;
@@ -57,7 +57,7 @@ export interface ProductState {
 export interface Category {
   id: number;
   name: string;
-  gender?: string; // Optional field
+  gender?: string; 
 }
 
 export interface Subcategory {
@@ -70,7 +70,7 @@ export interface Product {
   id: number;
   name: string;
   description?: string;
-  price?: number;
+  price: number;
   quantity?: number; 
   subcategory?: string;
   category?: string;

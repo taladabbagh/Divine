@@ -19,6 +19,25 @@ export const fetchCategories = async (): Promise<Category[]> => {
   }
 };
 
+export const fetchCategoriesByGender = async (gender: string): Promise<Category[]> => {
+  try {
+    const response = await api.get<Category[]>(`/categories/gender/${gender}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching subcategories:', error);
+    throw error;
+  }
+};
+export const fetchNoGenderCategories = async (): Promise<Category[]> => {
+  try {
+    const response = await api.get<Category[]>(`/categories/without-gender}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching categories that have no gender:', error);
+    throw error;
+  }
+};
+
 export const fetchCategoryById = async (id: number): Promise<Category> => {
   try {
     const response = await api.get<Category>(`/categories/${id}`);
@@ -39,6 +58,17 @@ export const fetchSubcategories = async (): Promise<Subcategory[]> => {
   }
 };
 
+export const fetchSubCategoryById = async (id: number): Promise<Subcategory> => {
+  try {
+    const response = await api.get<Subcategory>(`/subcategories/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching Subcategory by id:', error);
+    throw error;
+  }
+};
+
+
 export const fetchSubcategoriesByCategoryId = async (categoryId: number): Promise<Subcategory[]> => {
   try {
     const response = await api.get<Subcategory[]>(`/subcategories/category/${categoryId}`);
@@ -48,6 +78,7 @@ export const fetchSubcategoriesByCategoryId = async (categoryId: number): Promis
     throw error;
   }
 };
+
 export const fetchProductsByCategory = async (categoryId: number): Promise<ProductDTO[]> => {
   try {
     const response = await api.get<ProductDTO[]>(`/categories/${categoryId}/products`);

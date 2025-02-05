@@ -51,3 +51,14 @@ export const fetchProductsBySubCategory = async (subCategoryId: number): Promise
   }
 };
 
+export const fetchSubcategoryIdByProductId = async (productId: number): Promise<number> => {
+  try {
+    const response = await api.get<number>(`/${productId}/subcategory-id`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching products by subcategory:', error);
+    throw error;
+  }
+};
+
+
